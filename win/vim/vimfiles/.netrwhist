@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/Users/thomas/.vim/ftplugin/clojure'
+let g:netrw_dirhist_2='/Users/thomas/.vim/bundle/cocoa'
+let g:netrw_dirhist_3='C:/Users/twilliams/vimfiles'
+let g:netrw_dirhist_4='C:/Users/twilliams/vimfiles/bundle'
+let g:netrw_dirhist_5='C:/Users/twilliams/vimfiles/bundle/vim-snippets'
+let g:netrw_dirhist_6='C:/Users/twilliams/vimfiles/bundle/vim-snippets/snippets'
+let g:netrw_dirhist_7='F:\CodeBusiness\BrimstoneBuild\install\Brimstone'
+let g:netrw_dirhist_8='f:/CodeBusiness/BrimstoneMain/root'

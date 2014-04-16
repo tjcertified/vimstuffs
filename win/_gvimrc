@@ -1,0 +1,68 @@
+""Random environment stuff
+set nocompatible
+set showcmd
+set omnifunc=syntaxcomplete#Complete
+color molokai
+syntax enable
+syntax on
+
+" Whitespace
+set nowrap
+set tabstop=4 shiftwidth=4
+set shiftround
+set expandtab
+set backspace=indent,eol,start
+set autoindent
+set relativenumber
+set undofile
+set ttyfast
+set ruler
+set visualbell
+set wildmenu
+set hidden
+set wildmode=list:longest
+set cursorline
+set number
+
+"" Searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set gdefault
+set showmatch
+set colorcolumn=80
+set guifont=ProggyCleanTT:h12:cANSI
+
+""<Esc> Alternate
+inoremap <S-CR> <Esc>
+inoremap jk <Esc>
+
+"" Set capital w to save
+command! W w
+command! Q q
+let mapleader = ","
+
+"" lets <,><space> get rid of search highlights
+nnoremap <leader><space> :noh<cr>
+nnoremap <leader>w <C-w>v<C-w>l
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+
+""Syntax for VB.Net files automatically
+autocmd BufNewFile,BufRead *.vb set ft=vbnet
+
+"" Set dirs
+set backupdir=$HOME/vim/bkp//
+set undodir=$HOME/vim/bkp//
+set dir=$HOME/vim/bkp//
+
+"" Set folding appropriately
+set foldmethod=indent
+set nofoldenable
+let xml_syntax_folding=1
+
+"" Enable hot key for GUndo
+nnoremap <F5> :GundoToggle<CR>

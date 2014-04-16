@@ -1,0 +1,3 @@
+set runtimepath=~/vimfiles,$VIMRUNTIME
+source C:\users\twilliams\_gvimrc
+
