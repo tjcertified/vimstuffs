@@ -14,9 +14,6 @@ set omnifunc=syntaxcomplete#Complete
 " set the color scheme
 color molokai
 
-" set the font for Graphical Vim (gVim)
-set guifont=Consolas:h11:cANSI
-
 " Whitespace
 " Turn line wrapping off
 set nowrap
@@ -88,9 +85,25 @@ set showmatch
 " color the 80th column for a guideline for line length
 set colorcolumn=80
 
-" remap 'Shift+Enter' to Esc (to leave insert mode easily)
-inoremap <S-CR> <Esc>
+"" Set dirs
+set backupdir=~/bkp//
+set undodir=~/undo//
+set dir=~/bkp//
 
+" Set code-folding somewhat appropriately
+set foldmethod=indent
+
+" turn off automatic code-folding when opening a file
+set nofoldenable
+
+""Syntax for VB.Net files automatically
+autocmd BufNewFile,BufRead *.vb set ft=vbnet
+
+" Enable 'VimAirline' extension
+let g:airline#extensions#tabline#enabled = 1
+set laststatus=2
+
+"""KEY REMAPPINGS
 " remap 'jk' to Esc (to leave insert mode easily)
 inoremap jk <Esc>
 
@@ -113,20 +126,13 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 
-""Syntax for VB.Net files automatically
-autocmd BufNewFile,BufRead *.vb set ft=vbnet
-
-"" Set dirs
-set backupdir=~/bkp//
-set undodir=~/undo//
-set dir=~/bkp//
-
-" Set code-folding somewhat appropriately
-set foldmethod=indent
-
-" turn off automatic code-folding when opening a file
-set nofoldenable
-
 " Use plugin for undo tree, and map toggle function to F5
 " NOTE: requires Python 2.7.6, x86 version
 nnoremap <F5> :GundoToggle<CR>
+
+" Add hotkey for NERDTree
+nnoremap <F4> :NERDTreeToggle<CR>
+
+"" WIN ONLY LINES!
+" set the font for Graphical Vim (gVim)
+set guifont=Consolas:h11:cANSI
