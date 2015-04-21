@@ -36,3 +36,8 @@ let b:undo_ftplugin = "setl fo< ofu< com< cms<"
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
+
+" Code Folding
+syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
+setlocal foldmethod=syntax
+setlocal foldlevel=99
