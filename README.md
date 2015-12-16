@@ -5,9 +5,12 @@ A collection of files used to get vim going on any computer. Mainly for myself, 
 
 For Mac/Linux
 --------------
-- Copy **nix/.vim** folder, **nix/.vimrc**, and **nix/.gvimrc** into home directory (~/username)
+- copy .vimrc into ~
+- clone Vundle into ~/.vim/bundle/
+- vim and 'PluginInstall'
 
 For Windows
 -----------
-- Copy **win/vimfiles** folder, **win/_gvimrc**, and **win/_vimrc** into home folder (C:\Users\username)
-- If using VsVim, copy **win/_vsvimrc** into home directory
+- copy _vimrc_ into home dir
+- clone Vundle into $HOME\vimfiles\bundle\
+- vim and 'PluginInstall'
