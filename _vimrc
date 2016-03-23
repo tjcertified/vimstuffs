@@ -1,5 +1,4 @@
-"" Vim settings
-
+"" VIM settings
 " set all files to be interpreted as utf-8
 set encoding=utf-8
 " set THIS file to be interpreted as utf-8
@@ -7,7 +6,7 @@ set encoding=utf-8
 scriptencoding utf-8
 
 " set the color scheme
-color molokai
+color holokai
 
 " set font
 set guifont=Consolas_for_Powerline_FixedD:h11
@@ -75,15 +74,17 @@ set showmatch
 set colorcolumn=80
 
 "" Set dirs
-set backupdir=~\bkp\
-set undodir=~\bkp\
-set dir=~\bkp\
+set backupdir=~\bkp\\
+set undodir=~\bkp\\
+set dir=~\bkp\\
 
 "" Code-folding
 " Set code-folding somewhat appropriately
 set foldmethod=indent
 " turn off automatic code-folding when opening a file
-set nofoldenable
+set foldenable
+" use X columns on left to show fold info
+set foldcolumn=5
 
 " For complex commands, show what state you are in the command
 " e.g. if typing '2dw' (delete two words), until the 'w' is pressed
@@ -92,7 +93,8 @@ set showcmd
 set omnifunc=syntaxcomplete#Complete
 
 " find all code
-set path=.,..,/code/bci-i/trunk/**,shared
+set path=.,..,/code/bci-r/trunk/**,shared
+" set path=.,..,/code/bci-i/trunk/**,shared
 
 " show 3 lines of code around cursor (top or bottom), when possible
 set scrolloff=3
@@ -106,7 +108,8 @@ Plugin 'VundleVim/vundle.vim'
 Plugin 'sjl/gundo.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tomtom/tlib_vim'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'garbas/vim-snipmate'
@@ -117,17 +120,21 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-fugitive'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'alvan/vim-closetag'
+Plugin 'tpope/vim-unimpaired'
 Plugin 'ervandew/supertab'
 Plugin 'rip-rip/clang_complete'
 Plugin 'vim-scripts/hexHighlight.vim'
 Plugin 'xolox/vim-shell'
 Plugin 'xolox/vim-misc'
 Plugin 'mileszs/ack.vim'
-Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'luochen1990/rainbow'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'a.vim'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'aklt/plantuml-syntax'
+Plugin 'abudden/taghighlight-automirror'
+Plugin 'ap/vim-css-color'
+
 call vundle#end()
 
 "" Turn filetype on for Vundle to work
@@ -165,6 +172,7 @@ nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
 nnoremap ZQ :bd<CR>
 nnoremap <F10> :SyntasticToggleMode<CR>
+nnoremap <S-F5> :silent make<CR>
 
 "" Leader Mappings
 " lets <,><space> get rid of search highlights
@@ -220,6 +228,7 @@ call airline#parts#define_raw('columnno', ':%3v')
 call airline#parts#define_accent('columnno', 'italic')
 function! AirlineAddLinecount()
   let g:airline_section_z = airline#section#create(['windowswap', 'linenr', '/', 'lineno', 'columnno'])
+  AirlineRefresh
 endfunction
 autocmd VimEnter * call AirlineAddLinecount()
 
@@ -238,7 +247,8 @@ let g:syntastic_quiet_messages = { "level": "warning" }
 "" Ctags options
 " look recursively for tags file
 set tags=tags;
-" change keybindings for navigating tags
+" settings for clang_complete
+let g:clang_close_preview = 1
 let g:clang_library_path = "C:\\Program Files\\LLVM\\bin"
 let g:clang_user_options = "|| exit 0"
 " make completion go faster by eliminating include files
@@ -248,13 +258,32 @@ set complete-=i
 let g:AutoPairsMapCR = 0
 imap <silent><CR> <CR><Plug>AutoPairsReturn
 
-"settings for rainbow_parentheses
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+" settings for auto-pairs
+let g:AutoPairsMultilineClose = 0
+
+" settings for SuperTab
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabClosePreviewOnPopupClose = 1
+
+" settings for Xolox vim-shell
+let g:shell_fullscreen_items = 'mT'
+call xolox#shell#maximize()
+
+" settings for PlantUML
+let g:plantuml_executable_script='java -jar c:\users\irgpqt\plantuml.jar'
+
+" settings for Rainbow parens
+let g:rainbow_active = 1
 
 " settings for Trane/ BCI-I work
-cd c:\code\bci-i\trunk\source\
-cs add \code\bci-i\trunk\source\cscope.out
+" cd c:\code\bci-i\trunk\source\
+" cs add \code\bci-i\trunk\source\cscope.out
+
+" settings for BCI-R work
+cd c:\code\bci-r\trunk\source\
+cs add \code\bci-r\trunk\source\cscope.out
+
+" settings for LCI-R
+" cd c:\code\lcir\trunk\sw\LCI_R\LCI_R\
+" cs add \code\lcir\trunk\sw\LCI_R\LCI_R\cscope.out
 
