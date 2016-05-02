@@ -126,7 +126,6 @@ Plugin 'rip-rip/clang_complete'
 Plugin 'vim-scripts/hexHighlight.vim'
 Plugin 'xolox/vim-shell'
 Plugin 'xolox/vim-misc'
-Plugin 'mileszs/ack.vim'
 Plugin 'luochen1990/rainbow'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'a.vim'
@@ -134,6 +133,7 @@ Plugin 'junegunn/vim-easy-align'
 Plugin 'aklt/plantuml-syntax'
 Plugin 'abudden/taghighlight-automirror'
 Plugin 'ap/vim-css-color'
+Plugin 'rking/ag.vim'
 
 call vundle#end()
 
@@ -270,7 +270,7 @@ let g:shell_fullscreen_items = 'mT'
 call xolox#shell#maximize()
 
 " settings for PlantUML
-let g:plantuml_executable_script='java -jar c:\users\irgpqt\plantuml.jar'
+let g:plantuml_executable_script = 'java -jar c:\users\irgpqt\plantuml.jar'
 
 " settings for Rainbow parens
 let g:rainbow_active = 1
