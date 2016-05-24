@@ -6,11 +6,10 @@ set encoding=utf-8
 scriptencoding utf-8
 
 " set the color scheme
-color holokai
+" color holokai
 
 " set font
-set guifont=Consolas_for_Powerline_FixedD:h11
-
+set guifont=Inconsolata-g_for_Powerline:h10:cANSI
 " enable syntax highlighting
 syntax on
 syntax enable
@@ -35,9 +34,9 @@ set backspace=indent,eol,start
 " use indentation of current line for next line
 set autoindent
 " show whitespaces
-set list listchars=tab:··,trail:●,extends:⮀,precedes:⮂
+set list listchars=tab:··,trail:●,extends:,precedes:
 
-" Set line number on left relatively.
+" Set line number on left relative lines away from current.
 set relativenumber
 " Show line number on current line instead of '0'
 set number
@@ -98,6 +97,7 @@ set path=.,..,/code/bci-r/trunk/**,shared
 
 " show 3 lines of code around cursor (top or bottom), when possible
 set scrolloff=3
+let g:colorscheme_user_path = 'c:/users/irgpqt/vimfiles/bundle/vim-colorschemes/colors'
 
 " setup Vundle
 set rtp+=~/vimfiles/bundle/Vundle.vim
@@ -134,6 +134,8 @@ Plugin 'aklt/plantuml-syntax'
 Plugin 'abudden/taghighlight-automirror'
 Plugin 'ap/vim-css-color'
 Plugin 'rking/ag.vim'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'tjcertified/vim-plugin-random-colorscheme-picker'
 
 call vundle#end()
 
@@ -173,6 +175,7 @@ nnoremap <silent> N Nzz
 nnoremap ZQ :bd<CR>
 nnoremap <F10> :SyntasticToggleMode<CR>
 nnoremap <S-F5> :silent make<CR>
+nnoremap <F8> :silent Ag<CR>
 
 "" Leader Mappings
 " lets <,><space> get rid of search highlights
@@ -210,17 +213,24 @@ command! VBD execute "bp|bd #"
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+" let g:airline_left_sep = '⮀'
+" let g:airline_left_alt_sep = '⮁'
+" let g:airline_right_sep = '⮂'
+" let g:airline_right_alt_sep = '⮃'
+" let g:airline_symbols.branch = '⭠'
+" let g:airline_symbols.readonly = '⭤'
+" let g:airline_symbols.linenr = '⭡'
 " Enable buffer-line from Airline extension
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = '⮀'
-let g:airline#extensions#tabline#left_alt_sep = '⮁'
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
 set laststatus=2
 " Add linecount to Airline
 call airline#parts#define_raw('lineno', '%L ')
@@ -231,6 +241,7 @@ function! AirlineAddLinecount()
   AirlineRefresh
 endfunction
 autocmd VimEnter * call AirlineAddLinecount()
+autocmd BufEnter * highlight Comment gui=italic cterm=italic term=italic
 
 " Enable Syntastic
 set statusline+=%#warningmsg#
@@ -287,3 +298,5 @@ cs add \code\bci-r\trunk\source\cscope.out
 " cd c:\code\lcir\trunk\sw\LCI_R\LCI_R\
 " cs add \code\lcir\trunk\sw\LCI_R\LCI_R\cscope.out
 
+
+highlight Comment gui=italic cterm=italic term=italic
