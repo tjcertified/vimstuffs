@@ -9,7 +9,7 @@ scriptencoding utf-8
 set guioptions+=c
 
 " set font
-set guifont=FantasqueSansMono_NF:h12:cANSI
+set guifont=Fantasque_Sans_Mono:h11:cANSI
 " enable syntax highlighting
 syntax on
 syntax enable
@@ -102,15 +102,13 @@ set path=.,,,c:/code/**,shared
 " show 3 lines of code around cursor (top or bottom), when possible
 set scrolloff=3
 
-" setup Vundle
+" Start Vundle
 set rtp+=~/vimfiles/bundle/Vundle.vim
 call vundle#begin('~/vimfiles/bundle/')
 
 " let Vundle manage Vundle (required) and add all plugins
 Plugin 'VundleVim/vundle.vim'
 Plugin 'sjl/gundo.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'FelikZ/ctrlp-py-matcher'
 Plugin 'scrooloose/syntastic'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -124,7 +122,6 @@ Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'rip-rip/clang_complete'
 Plugin 'vim-scripts/hexHighlight.vim'
 Plugin 'xolox/vim-shell'
 Plugin 'xolox/vim-misc'
@@ -137,9 +134,11 @@ Plugin 'abudden/taghighlight-automirror'
 Plugin 'ap/vim-css-color'
 Plugin 'mileszs/ack.vim'
 Plugin 'flazz/vim-colorschemes'
-Plugin 'shougo/neocomplete.vim'
+Plugin 'shougo/denite.nvim'
 Plugin 'shougo/neosnippet'
 Plugin 'shougo/neosnippet-snippets'
+Plugin 'shougo/neocomplete.vim'
+Plugin 'shougo/context_filetype.vim'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'danilo-augusto/vim-afterglow'
 Plugin 'elixir-lang/vim-elixir'
@@ -154,30 +153,6 @@ filetype plugin indent on
 
 "" Set mapleader to , instead of \ for ease
 let mapleader = ","
-
-" for CtrlP plugin;
-if !has('python')
-  echo 'In order to use pymatcher plugin, you need +python compiled vim'
-else
-  let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-endif
-
-set runtimepath^=~/vimfiles/bundle/ctrlp.vim
-
-" Change default CtrlP function to mixed (search paths, buffers,
-" and MostRecentlyUsed
-let g:ctrlp_cmd = 'CtrlPMixed'
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_clear_lazy_update = 350
-" let g:ctrlp_clear_cache_on_exit = 0
-
-let g:ctrlp_max_files = 0
-
-" if executable("ag")
-"   set grepprg=ag\ --nogroup\ --nocolor
-"   let g:ctrlp_user_command = 'ag -i --nocolor --nogroup --hidden -g %s'
-" endif
-
 
 """KEY REMAPPINGS
 " remap 'jk' to Esc (to leave insert mode easily)
@@ -197,8 +172,10 @@ nnoremap <F4> :SyntasticCheck<CR>
 " bring next match to middle of screen from either direction
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
-" remap ZQ to close a current buffer
+" remap ZQ to close a current buffer (kills split-screen)
 nnoremap ZQ :bd<CR>
+" remap ,b to close current buffer without closing split
+nnoremap <Leader>b :bn\|bd #<CR>
 nnoremap <F10> :SyntasticToggleMode<CR>
 nnoremap <F12> :silent Ack!<CR>
 " remove trailing whitespace in entire file with F4
@@ -228,6 +205,13 @@ nnoremap <Leader>fi :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR
 "d: Find functions called by this function
 nnoremap <Leader>fd :cs find d <C-R>=expand("<cword>")<CR><CR>
 
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ neocomplete#start_manual_complete()
+  function! s:check_back_space()
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+  endfunction
 "" Commands
 " Set capital w to save
 command! W w
@@ -268,99 +252,29 @@ function! AirlineAddLinecount()
   AirlineRefresh
 endfunction
 autocmd VimEnter * call AirlineAddLinecount()
-autocmd BufEnter * highlight Comment gui=italic cterm=italic term=italic
 
-" Enable Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let b:syntastic_mode = "passive"
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let b:syntastic_mode = 'passive'
-let g:syntastic_cpp_remove_include_errors = 1
-let g:syntastic_quiet_messages = { "level": "warning" }
-
-"" Ctags options
-" look recursively for tags file
-set tags=tags;
-" settings for clang_complete
-let g:clang_close_preview = 1
-let g:clang_library_path = "C:\\Program Files\\LLVM\\bin"
-let g:clang_user_options = "|| exit 0"
-" make completion go faster by eliminating include files
-set complete-=i
-
-" workaround for autopairs+clang_complete
-" let g:AutoPairsMapCR = 0
-" imap <silent><CR> <CR><Plug>AutoPairsReturn
-" settings for auto-pairs
-" let g:AutoPairsMultilineClose = 0
-let g:AutoPairsFlyMode = 1
-
-
-" neocomplete
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-" neosnippet
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab-like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-map <expr><TAB>
-\ pumvisible() ? "\<C-n>" :
-\ neosnippet#expandable_or_jumpable() ?
-\    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-
-" settings for SuperTab
-" let g:SuperTabDefaultCompletionType = "context"
-
-" settings for Xolox vim-shell
-let g:shell_fullscreen_items = 'm'
-call xolox#shell#maximize()
-
-" settings for PlantUML
-let g:plantuml_executable_script = 'java -jar c:\users\irgpqt\plantuml.jar'
-
-" settings for Rainbow parens
+""" Setup Rainbow parens
 let g:rainbow_active = 1
 
-" settings for jedi-vim (python)
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#completions_enabled = 0
+""" neocomplete
+let g:neocomplete#enable_at_startup = 1
 
-" If 'Ag' is installed, then let it run instead of Ack
-if executable('ag')
-  let g:ackprg = 'ag --ignore "Debug Build" --vimgrep'
-endif
+""" Denite commands
+" CtrlP Replacement (NOTE: project by default)
+nnoremap <C-p> :<C-u>DeniteProjectDir file/rec<CR>
+nnoremap <Leader>dh :<C-u>Denite file/rec:~/<CR>
+nnoremap <Leader>* :<C-u>DeniteCursorWord grep<CR>
+" Change file_rec command.
+call denite#custom#var('file_rec', 'command',
+            \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+" use 'ag' as command for Denite grep command
+call denite#custom#var('grep', 'command', ['ag'])
+call denite#custom#var('grep', 'default_opts',
+            \ ['-i', '--nocolor', '--nogroup', '--column'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', [])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
 
-highlight Comment gui=italic cterm=italic term=italic
 colorscheme afterglow
-
-" open in full screen
-au GUIEnter * simalt ~x
+autocmd BufEnter * highlight Comment gui=italic cterm=italic term=italic
